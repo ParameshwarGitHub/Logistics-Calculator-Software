@@ -36,7 +36,15 @@ Partial Class Form1
         Reset_Button = New Button()
         GroupBox7 = New GroupBox()
         StatusLabel = New Label()
+        AllowedWeight_Label = New Label()
         ButtonConnect = New Button()
+        Label2 = New Label()
+        ScannedInvoice_Label = New Label()
+        Label4 = New Label()
+        TripScore_Label = New Label()
+        Label8 = New Label()
+        Label3 = New Label()
+        TodayScore_Label = New Label()
         ScanInvoice_Label = New Label()
         ScanQR_TextBox = New TextBox()
         PictureBox1 = New PictureBox()
@@ -46,10 +54,6 @@ Partial Class Form1
         InvoiceNo = New DataGridViewTextBoxColumn()
         InvoiceDate = New DataGridViewTextBoxColumn()
         InvoiceValue = New DataGridViewTextBoxColumn()
-        Label3 = New Label()
-        TodayScore_Label = New Label()
-        Label8 = New Label()
-        TripScore_Label = New Label()
         Weight_Label = New Label()
         Label18 = New Label()
         Data_Panel = New Panel()
@@ -65,11 +69,7 @@ Partial Class Form1
         LRNumber_TextBox = New TextBox()
         Label7 = New Label()
         TripType_ComboBox = New ComboBox()
-        ScannedInvoice_Label = New Label()
-        Label4 = New Label()
         ConfimInvoice_Button = New Button()
-        AllowedWeight_Label = New Label()
-        Label2 = New Label()
         GroupBox7.SuspendLayout()
         CType(PictureBox1, ComponentModel.ISupportInitialize).BeginInit()
         Panel1.SuspendLayout()
@@ -118,7 +118,7 @@ Partial Class Form1
         InvoiceNumber_TextBox.BackColor = SystemColors.Window
         InvoiceNumber_TextBox.BorderStyle = BorderStyle.FixedSingle
         InvoiceNumber_TextBox.Font = New Font("Segoe UI", 20F, FontStyle.Bold)
-        InvoiceNumber_TextBox.Location = New Point(356, 213)
+        InvoiceNumber_TextBox.Location = New Point(361, 213)
         InvoiceNumber_TextBox.Margin = New Padding(4, 3, 4, 3)
         InvoiceNumber_TextBox.Name = "InvoiceNumber_TextBox"
         InvoiceNumber_TextBox.Size = New Size(158, 61)
@@ -212,6 +212,17 @@ Partial Class Form1
         StatusLabel.TabIndex = 38
         StatusLabel.Text = "Disconnected"
         ' 
+        ' AllowedWeight_Label
+        ' 
+        AllowedWeight_Label.Font = New Font("Segoe UI Semibold", 25F, FontStyle.Bold)
+        AllowedWeight_Label.Location = New Point(805, 228)
+        AllowedWeight_Label.Margin = New Padding(4, 0, 4, 0)
+        AllowedWeight_Label.Name = "AllowedWeight_Label"
+        AllowedWeight_Label.Size = New Size(201, 60)
+        AllowedWeight_Label.TabIndex = 50
+        AllowedWeight_Label.Text = "0000"
+        AllowedWeight_Label.TextAlign = ContentAlignment.MiddleCenter
+        ' 
         ' ButtonConnect
         ' 
         ButtonConnect.BackColor = Color.WhiteSmoke
@@ -223,6 +234,83 @@ Partial Class Form1
         ButtonConnect.TabIndex = 33
         ButtonConnect.Text = "Connect"
         ButtonConnect.UseVisualStyleBackColor = False
+        ' 
+        ' Label2
+        ' 
+        Label2.AutoSize = True
+        Label2.Font = New Font("Segoe UI", 9F, FontStyle.Bold)
+        Label2.Location = New Point(823, 203)
+        Label2.Margin = New Padding(4, 0, 4, 0)
+        Label2.Name = "Label2"
+        Label2.Size = New Size(148, 25)
+        Label2.TabIndex = 49
+        Label2.Text = "Allowed Weight"
+        ' 
+        ' ScannedInvoice_Label
+        ' 
+        ScannedInvoice_Label.Font = New Font("Segoe UI Semibold", 25F, FontStyle.Bold)
+        ScannedInvoice_Label.Location = New Point(1065, 228)
+        ScannedInvoice_Label.Margin = New Padding(4, 0, 4, 0)
+        ScannedInvoice_Label.Name = "ScannedInvoice_Label"
+        ScannedInvoice_Label.Size = New Size(201, 60)
+        ScannedInvoice_Label.TabIndex = 48
+        ScannedInvoice_Label.Text = "0000"
+        ScannedInvoice_Label.TextAlign = ContentAlignment.MiddleCenter
+        ' 
+        ' Label4
+        ' 
+        Label4.AutoSize = True
+        Label4.Font = New Font("Segoe UI", 9F, FontStyle.Bold)
+        Label4.Location = New Point(1083, 203)
+        Label4.Margin = New Padding(4, 0, 4, 0)
+        Label4.Name = "Label4"
+        Label4.Size = New Size(151, 25)
+        Label4.TabIndex = 47
+        Label4.Text = "Scanned Invoice"
+        ' 
+        ' TripScore_Label
+        ' 
+        TripScore_Label.Font = New Font("Segoe UI Semibold", 25F, FontStyle.Bold)
+        TripScore_Label.Location = New Point(1620, 228)
+        TripScore_Label.Margin = New Padding(4, 0, 4, 0)
+        TripScore_Label.Name = "TripScore_Label"
+        TripScore_Label.Size = New Size(201, 60)
+        TripScore_Label.TabIndex = 42
+        TripScore_Label.Text = "0000"
+        TripScore_Label.TextAlign = ContentAlignment.MiddleCenter
+        ' 
+        ' Label8
+        ' 
+        Label8.AutoSize = True
+        Label8.Font = New Font("Segoe UI", 9F, FontStyle.Bold)
+        Label8.Location = New Point(1665, 203)
+        Label8.Margin = New Padding(4, 0, 4, 0)
+        Label8.Name = "Label8"
+        Label8.Size = New Size(97, 25)
+        Label8.TabIndex = 41
+        Label8.Text = "Trip Score"
+        ' 
+        ' Label3
+        ' 
+        Label3.AutoSize = True
+        Label3.Font = New Font("Segoe UI", 9F, FontStyle.Bold)
+        Label3.Location = New Point(1377, 203)
+        Label3.Margin = New Padding(4, 0, 4, 0)
+        Label3.Name = "Label3"
+        Label3.Size = New Size(115, 25)
+        Label3.TabIndex = 17
+        Label3.Text = "Today Score"
+        ' 
+        ' TodayScore_Label
+        ' 
+        TodayScore_Label.Font = New Font("Segoe UI Semibold", 25F, FontStyle.Bold)
+        TodayScore_Label.Location = New Point(1343, 228)
+        TodayScore_Label.Margin = New Padding(4, 0, 4, 0)
+        TodayScore_Label.Name = "TodayScore_Label"
+        TodayScore_Label.Size = New Size(201, 60)
+        TodayScore_Label.TabIndex = 40
+        TodayScore_Label.Text = "0000"
+        TodayScore_Label.TextAlign = ContentAlignment.MiddleCenter
         ' 
         ' ScanInvoice_Label
         ' 
@@ -315,50 +403,6 @@ Partial Class Form1
         InvoiceValue.MinimumWidth = 8
         InvoiceValue.Name = "InvoiceValue"
         InvoiceValue.ReadOnly = True
-        ' 
-        ' Label3
-        ' 
-        Label3.AutoSize = True
-        Label3.Font = New Font("Segoe UI", 9F, FontStyle.Bold)
-        Label3.Location = New Point(1424, 213)
-        Label3.Margin = New Padding(4, 0, 4, 0)
-        Label3.Name = "Label3"
-        Label3.Size = New Size(115, 25)
-        Label3.TabIndex = 17
-        Label3.Text = "Today Score"
-        ' 
-        ' TodayScore_Label
-        ' 
-        TodayScore_Label.Font = New Font("Segoe UI Semibold", 25F, FontStyle.Bold)
-        TodayScore_Label.Location = New Point(1390, 238)
-        TodayScore_Label.Margin = New Padding(4, 0, 4, 0)
-        TodayScore_Label.Name = "TodayScore_Label"
-        TodayScore_Label.Size = New Size(201, 60)
-        TodayScore_Label.TabIndex = 40
-        TodayScore_Label.Text = "0000"
-        TodayScore_Label.TextAlign = ContentAlignment.MiddleCenter
-        ' 
-        ' Label8
-        ' 
-        Label8.AutoSize = True
-        Label8.Font = New Font("Segoe UI", 9F, FontStyle.Bold)
-        Label8.Location = New Point(1712, 213)
-        Label8.Margin = New Padding(4, 0, 4, 0)
-        Label8.Name = "Label8"
-        Label8.Size = New Size(97, 25)
-        Label8.TabIndex = 41
-        Label8.Text = "Trip Score"
-        ' 
-        ' TripScore_Label
-        ' 
-        TripScore_Label.Font = New Font("Segoe UI Semibold", 25F, FontStyle.Bold)
-        TripScore_Label.Location = New Point(1667, 238)
-        TripScore_Label.Margin = New Padding(4, 0, 4, 0)
-        TripScore_Label.Name = "TripScore_Label"
-        TripScore_Label.Size = New Size(201, 60)
-        TripScore_Label.TabIndex = 42
-        TripScore_Label.Text = "0000"
-        TripScore_Label.TextAlign = ContentAlignment.MiddleCenter
         ' 
         ' Weight_Label
         ' 
@@ -534,28 +578,6 @@ Partial Class Form1
         TripType_ComboBox.Size = New Size(335, 40)
         TripType_ComboBox.TabIndex = 12
         ' 
-        ' ScannedInvoice_Label
-        ' 
-        ScannedInvoice_Label.Font = New Font("Segoe UI Semibold", 25F, FontStyle.Bold)
-        ScannedInvoice_Label.Location = New Point(1112, 238)
-        ScannedInvoice_Label.Margin = New Padding(4, 0, 4, 0)
-        ScannedInvoice_Label.Name = "ScannedInvoice_Label"
-        ScannedInvoice_Label.Size = New Size(201, 60)
-        ScannedInvoice_Label.TabIndex = 48
-        ScannedInvoice_Label.Text = "0000"
-        ScannedInvoice_Label.TextAlign = ContentAlignment.MiddleCenter
-        ' 
-        ' Label4
-        ' 
-        Label4.AutoSize = True
-        Label4.Font = New Font("Segoe UI", 9F, FontStyle.Bold)
-        Label4.Location = New Point(1130, 213)
-        Label4.Margin = New Padding(4, 0, 4, 0)
-        Label4.Name = "Label4"
-        Label4.Size = New Size(151, 25)
-        Label4.TabIndex = 47
-        Label4.Text = "Scanned Invoice"
-        ' 
         ' ConfimInvoice_Button
         ' 
         ConfimInvoice_Button.Location = New Point(548, 213)
@@ -565,28 +587,6 @@ Partial Class Form1
         ConfimInvoice_Button.Text = "Confirm"
         ConfimInvoice_Button.UseVisualStyleBackColor = True
         ' 
-        ' AllowedWeight_Label
-        ' 
-        AllowedWeight_Label.Font = New Font("Segoe UI Semibold", 25F, FontStyle.Bold)
-        AllowedWeight_Label.Location = New Point(852, 238)
-        AllowedWeight_Label.Margin = New Padding(4, 0, 4, 0)
-        AllowedWeight_Label.Name = "AllowedWeight_Label"
-        AllowedWeight_Label.Size = New Size(201, 60)
-        AllowedWeight_Label.TabIndex = 50
-        AllowedWeight_Label.Text = "0000"
-        AllowedWeight_Label.TextAlign = ContentAlignment.MiddleCenter
-        ' 
-        ' Label2
-        ' 
-        Label2.AutoSize = True
-        Label2.Font = New Font("Segoe UI", 9F, FontStyle.Bold)
-        Label2.Location = New Point(870, 213)
-        Label2.Margin = New Padding(4, 0, 4, 0)
-        Label2.Name = "Label2"
-        Label2.Size = New Size(148, 25)
-        Label2.TabIndex = 49
-        Label2.Text = "Allowed Weight"
-        ' 
         ' Form1
         ' 
         AutoScaleDimensions = New SizeF(14F, 32F)
@@ -595,21 +595,21 @@ Partial Class Form1
         ClientSize = New Size(1881, 911)
         Controls.Add(PictureBox1)
         Controls.Add(AllowedWeight_Label)
-        Controls.Add(Label2)
-        Controls.Add(ScannedInvoice_Label)
-        Controls.Add(Label4)
         Controls.Add(ConfimInvoice_Button)
         Controls.Add(Data_Panel)
-        Controls.Add(TripScore_Label)
-        Controls.Add(Label8)
-        Controls.Add(TodayScore_Label)
-        Controls.Add(Label3)
+        Controls.Add(Label2)
         Controls.Add(Panel1)
-        Controls.Add(InvoiceNumber_TextBox)
+        Controls.Add(ScannedInvoice_Label)
         Controls.Add(GroupBox7)
+        Controls.Add(Label4)
+        Controls.Add(InvoiceNumber_TextBox)
         Controls.Add(Label15)
         Controls.Add(InoviceNumber_Label)
         Controls.Add(TextBox11)
+        Controls.Add(TripScore_Label)
+        Controls.Add(TodayScore_Label)
+        Controls.Add(Label8)
+        Controls.Add(Label3)
         Font = New Font("Segoe UI", 12F, FontStyle.Bold)
         Margin = New Padding(4, 3, 4, 3)
         Name = "Form1"

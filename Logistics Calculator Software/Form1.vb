@@ -10,17 +10,7 @@ Public Class Form1
     Private WithEvents serialPortScanner As SerialPort
     Private connected As Boolean = False
     Dim SqlDataEntry As New SQL_Data_Sync()
-    Function GetJwtPayloadAsJson(jwtToken As String) As String
-        Dim handler As New JwtSecurityTokenHandler()
-        Dim jsonToken As JwtSecurityToken = handler.ReadToken(jwtToken)
-
-        If jsonToken IsNot Nothing AndAlso jsonToken.Payload IsNot Nothing Then
-            Return Newtonsoft.Json.JsonConvert.SerializeObject(jsonToken.Payload, Newtonsoft.Json.Formatting.Indented)
-        End If
-        Return String.Empty
-    End Function
-
-
+    Dim JsonCall As New JSONFILE()
 
     Private Sub ButtonConnect_Click(sender As Object, e As EventArgs) Handles ButtonConnect.Click
         If Not connected Then
@@ -174,13 +164,16 @@ Public Class Form1
         Try
 
 
-
-            Dim selectedTripType As String = TripType_ComboBox.SelectedItem.ToString()
+            Dim numberOfIterations As Integer
+            If Integer.TryParse(InvoiceNumber_TextBox.Text, numberOfIterations) Then
+                ' Counter variable to keep track of iterations
+                Dim currentIteration As Integer = 0
+                Dim selectedTripType As String = TripType_ComboBox.SelectedItem.ToString()
             Dim floatValue As Double
             Dim allowedWeightValue As Double
             Dim weightscore As Double
-            Try
-                Dim scannedvalue = ScanQR_TextBox.Text
+                For i As Integer = 1 To numberOfIterations
+                    Dim scannedvalue = ScanQR_TextBox.Text
 
                 If IsCapsLockOn() Then
                     Console.WriteLine("Caps Lock is ON. Reversing casing...")
@@ -191,7 +184,7 @@ Public Class Form1
                     ' Do nothing or perform other actions as needed
                 End If
 
-                Dim jsonresponse = GetJwtPayloadAsJson(scannedvalue)
+                Dim jsonresponse = JsonCall.GetJwtPayloadAsJson(scannedvalue)
 
                 ' Extract the DocNo value
                 Dim outerObject As JObject = JObject.Parse(jsonresponse)
@@ -239,15 +232,14 @@ Public Class Form1
 
                 End If
 
-            Catch ex As Exception
-                ' Handle any other exceptions here
-                MessageBox.Show($"Error: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
-            End Try
 
 
+            Select Case selectedTripType
+                Case "Weight Basis"
 
-            'Logic for weight score
-            If Double.TryParse(Weight_Label.Text, floatValue) Then
+                    'Logic for weight score
+
+                    If Double.TryParse(Weight_Label.Text, floatValue) Then
                 ' Display a messagebox to show the floatValue
                 'MessageBox.Show($" Float Value: {floatValue}")
 
@@ -285,10 +277,10 @@ Public Class Form1
                 TripScore_Label.BackColor = Color.Red
             End If
 
+                Case "Trip Basis"
 
-
-            'Logic for trip type
-            If Double.TryParse(Weight_Label.Text, floatValue) Then
+                    'Logic for trip type
+                    If Double.TryParse(Weight_Label.Text, floatValue) Then
                 ' Display a messagebox to show the floatValue
                 MessageBox.Show($" Float Value: {floatValue}")
 
@@ -329,12 +321,35 @@ Public Class Form1
             'Update the label for the next scan
             Status_Label.Text = "Waiting For Scan"
 
-
+End Select
             'Clear the textbox after scanning
             ScanQR_TextBox.Clear()
+                    ' Increment the counter
+                    currentIteration += 1
+
+                    ' Check if we have reached the desired number of iterations
+                    If currentIteration >= numberOfIterations Then
+                        Exit For ' Exit the loop if the desired iterations are reached
+                    End If
+                Next
+
+                ' Check if the number of rows in DataView_Grid has reached the specified value
+                If DataView_Grid.Rows.Count >= numberOfIterations Then
+                    ' Disable the Button1
+                    Button1.Enabled = False
+                    MessageBox.Show("Number of invoices reached. Button1 is now disabled.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                End If
+
+            Else
+                MessageBox.Show("Please enter a valid number in the InvoiceNumber_TextBox.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            End If
+
+
+
         Catch ex As Exception
             ' Handle any other exceptions here
             MessageBox.Show($"Error: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+
         End Try
     End Sub
 
@@ -377,12 +392,24 @@ Public Class Form1
 
     Private Sub Vehicle_ComboBox_SelectedIndexChanged(sender As Object, e As EventArgs) Handles Vehicle_ComboBox.SelectedIndexChanged
         ' Handle the SelectedIndexChanged event of the Vehicle_ComboBox
-        Dim allowedWeight As String() = Vehicle_ComboBox.Text.Split(":")
-        If allowedWeight.Length > 1 Then
+        Dim selectedItemText As String = Vehicle_ComboBox.Text
+
+        ' Parse the first part (vehicle name)
+        Dim parts As String() = selectedItemText.Split(":")
+        If parts.Length > 1 Then
+            ' Extract the vehicle name (part before the ':')
+            firstPart = parts(0).Trim()
+
+            ' Now 'firstPart' contains the extracted string value before the ':'
+            ' You can use 'firstPart' as needed in your code
+            Console.WriteLine("Vehicle Name: " & firstPart)
+
+            ' Parse the second part (allowed weight)
             Dim allowedWeightValue As Integer
-            If Integer.TryParse(allowedWeight(1).Trim(), allowedWeightValue) Then
+            If Integer.TryParse(parts(1).Trim(), allowedWeightValue) Then
                 ' Now, 'allowedWeightValue' contains the extracted integer value
-                AllowedWeight_Label.Text = allowedWeightValue
+                AllowedWeight_Label.Text = allowedWeightValue.ToString()
+                Console.WriteLine("Allowed Weight: " & allowedWeightValue)
             Else
                 ' Handle the case where parsing to integer fails
                 MsgBox("Error parsing allowed weight as an integer.")
@@ -394,24 +421,6 @@ Public Class Form1
 
         ' Get the selected item from the ComboBox
         Dim selectedVehicle As String = Vehicle_ComboBox.SelectedItem.ToString()
-
-
-        ' Split the selected item using ":" as the delimiter
-        Dim vehicleParts As String() = selectedVehicle.Split(":")
-
-        ' Check if there are at least two parts after splitting
-        If vehicleParts.Length > 0 Then
-            ' Extract the first part (index 0) and do something with it
-            Dim firstPart = vehicleParts(0).Trim()
-
-            ' Now 'firstPart' contains the extracted first part of the selected item
-            ' You can use 'firstPart' as needed in your code
-
-        Else
-            ' Handle the case where splitting the text doesn't result in any parts
-            MsgBox("Error splitting text in Vehicle ComboBox.")
-        End If
-
 
 
 
@@ -491,31 +500,30 @@ Public Class Form1
 
     End Sub
 
-
-    Dim firstpart As String
+    Public firstPart As String
     Dim selectedTripType As String
 
     Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click
         Dim numberOfIterations As Integer
         If Integer.TryParse(InvoiceNumber_TextBox.Text, numberOfIterations) AndAlso numberOfIterations > 0 Then
-            For i As Integer = 1 To numberOfIterations
-                ' Your existing code here
-                Dim allowedWeight As String() = Vehicle_ComboBox.Text.Split(":")
-                If allowedWeight.Length > 1 Then
-                    Dim allowedWeightValue As Integer
-                    If Integer.TryParse(allowedWeight(1).Trim(), allowedWeightValue) Then
-                        ' Now, 'allowedWeightValue' contains the extracted integer value
-                        Dim Success As Boolean = SqlDataEntry.DataEntry("2200", LRNumber_TextBox.Text, Val(InvoiceNumber_TextBox.Text), "VendorCode", "${firstpart}", "${selectedTripType}", "Packaging_denomination", "Customer_Code", "Customer_Name", "DeliveryLocation", 122222, 22.4, 22.3, 22.4, 22.4, 22.333, 222.22, 222.0, 2.0, TripScore_Label.Text)
-                        MsgBox(Success)
-                    Else
-                        ' Handle the case where parsing to integer fails
-                        MsgBox("Error parsing allowed weight as an integer.")
-                    End If
+
+            ' Your existing code here
+            Dim allowedWeight As String() = Vehicle_ComboBox.Text.Split(":")
+            If allowedWeight.Length > 1 Then
+                Dim allowedWeightValue As Integer
+                If Integer.TryParse(allowedWeight(1).Trim(), allowedWeightValue) Then
+                    ' Now, 'allowedWeightValue' contains the extracted integer value
+                    Dim Success As Boolean = SqlDataEntry.DataEntry("2200", LRNumber_TextBox.Text, Val(InvoiceNumber_TextBox.Text).ToString, "VendorCode", firstPart, selectedTripType, "Packaging_denomination", "Customer_Code", "Customer_Name", "DeliveryLocation", 122222, 22.4, 22.3, 22.4, 22.4, 22.333, 222.22, 222.0, 2.0, TripScore_Label.Text)
+                    MsgBox(Success)
                 Else
-                    ' Handle the case where splitting the text doesn't result in two parts
-                    MsgBox("Error splitting text in Vehicle ComboBox.")
+                    ' Handle the case where parsing to integer fails
+                    MsgBox("Error parsing allowed weight as an integer.")
                 End If
-            Next i
+            Else
+                ' Handle the case where splitting the text doesn't result in two parts
+                MsgBox("Error splitting text in Vehicle ComboBox.")
+            End If
+
         Else
             ' Handle the case where InvoiceNumber is not a valid positive integer
             MsgBox("Invalid InvoiceNumber. Please enter a valid positive integer.")
